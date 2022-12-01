@@ -15,7 +15,7 @@ group (x :: xs) = let tailGroups = group xs in
                                            (group :: rest) => (x :: group) :: rest))
 
 -- Casts a list of strings to a list of Nats
-castGroup : List String -> List Nat
+castGroup : List String -> List Integer
 castGroup [] = []
 castGroup (x :: xs) = (cast x) :: castGroup xs
 
