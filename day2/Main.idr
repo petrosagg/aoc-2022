@@ -19,16 +19,21 @@ parseHand 'Y' = Just Paper
 parseHand 'Z' = Just Scissors
 parseHand _ = Nothing
 
-outcomeScore : Hand -> Hand -> Integer
-outcomeScore Rock Rock = 3
-outcomeScore Rock Paper = 6
-outcomeScore Rock Scissors = 0
-outcomeScore Paper Rock = 0
-outcomeScore Paper Paper = 3
-outcomeScore Paper Scissors = 6
-outcomeScore Scissors Rock = 6
-outcomeScore Scissors Paper = 0
-outcomeScore Scissors Scissors = 3
+outcome : Hand -> Hand -> Outcome
+outcome Rock Paper = Win
+outcome Paper Scissors = Win
+outcome Scissors Rock = Win
+outcome Rock Scissors = Loss
+outcome Paper Rock = Loss
+outcome Scissors Paper = Loss
+outcome Paper Paper = Draw
+outcome Rock Rock = Draw
+outcome Scissors Scissors = Draw
+
+outcomeScore : Outcome -> Integer
+outcomeScore Win = 6
+outcomeScore Draw = 3
+outcomeScore Loss = 0
 
 handScore : Hand -> Integer
 handScore Rock = 1
@@ -36,7 +41,7 @@ handScore Paper = 2
 handScore Scissors = 3
 
 gameScore : (Hand, Hand) -> Integer
-gameScore (theirs, ours) = (outcomeScore theirs ours) + (handScore ours)
+gameScore (theirs, ours) = (outcomeScore (outcome theirs ours)) + (handScore ours)
 
 -- Parse a line of input using the first argument to parse the second component of the input
 parseGame : (Char -> Maybe a) -> String -> Maybe (Hand, a)
