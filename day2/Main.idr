@@ -65,13 +65,13 @@ gameForOutcome (hand, outcome) = (hand, (handForOutcome hand outcome))
 
 solvePart1 : List String -> Maybe Integer
 solvePart1 raw = do games <- sequence (map (parseGame parseHand) raw)
-                    scores <- pure (map gameScore games)
+                    let scores = map gameScore games
                     Just (sum scores)
 
 solvePart2 : List String -> Maybe Integer
 solvePart2 raw = do gameOutcomes <- sequence (map (parseGame parseOutcome) raw)
-                    games <- pure (map gameForOutcome gameOutcomes)
-                    scores <- pure (map gameScore games)
+                    let games = map gameForOutcome gameOutcomes
+                    let scores = map gameScore games
                     Just (sum scores)
 
 main : IO ()
